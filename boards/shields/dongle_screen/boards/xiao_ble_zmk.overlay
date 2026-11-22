@@ -44,6 +44,11 @@
    };
 };
 
+&xiao_spi {
+   status = "okay";
+   cs-gpios = <&xiao_d 2 GPIO_ACTIVE_LOW>;
+};
+
 disp_spi: &spi3 {
    status = "okay";
    pinctrl-0 = <&spi3_default>;
@@ -55,22 +60,22 @@ disp_spi: &spi3 {
 / {
    mipi_dbi {
        compatible = "zephyr,mipi-dbi-spi";
-       spi-dev = <&spi3>;
-       dc-gpios = <&xiao_d 7 GPIO_ACTIVE_HIGH>;
-       reset-gpios = <&xiao_d 3 GPIO_ACTIVE_LOW>;
+       spi-dev = <&xiao_spi>;
+       dc-gpios = <&xiao_d 3 GPIO_ACTIVE_LOW>;    /* D3 */
+       reset-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;  /* D17 (P0.09) */
        write-only;
        #address-cells = <1>;
        #size-cells = <0>;
 
        st7789: st7789v@0 {
            compatible = "sitronix,st7789v";
-           mipi-max-frequency = <30000000>;
+           mipi-max-frequency = <20000000>;
            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
            reg = <0>;
            width = <240>;
-           height = <280>;
-           x-offset = <0>;
-           y-offset = <20>;
+           height = <135>;
+           x-offset = <40>;
+           y-offset = <53>;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
