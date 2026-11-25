@@ -56,7 +56,6 @@
            height = <135>;
            x-offset = <40>;
            y-offset = <53>;
-           inversion-on;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
