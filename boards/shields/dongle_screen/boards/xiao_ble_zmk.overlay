@@ -41,7 +41,7 @@
    mipi_dbi {
        compatible = "zephyr,mipi-dbi-spi";
        spi-dev = <&xiao_spi>;
-       dc-gpios = <&xiao_d 3 GPIO_ACTIVE_LOW>;    /* D3 */
+       dc-gpios = <&xiao_d 3 GPIO_ACTIVE_HIGH>;    /* D3 */
        reset-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;  /* D17 (P0.09) */
        write-only;
        #address-cells = <1>;
@@ -56,6 +56,7 @@
            height = <135>;
            x-offset = <40>;
            y-offset = <53>;
+           inversion-on;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
