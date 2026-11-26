@@ -4,6 +4,15 @@
    };
 };
 
+/* バックライト制御ピン D18 (P0.18) を起動と同時に確実に High にする */
+&gpio0 {
+   lcd_backlight_hog {
+      gpio-hog;
+      gpios = <18 GPIO_ACTIVE_HIGH>;
+      output-high;
+   };
+};
+
 /* ディスプレイ用 SPI バス (D8=SCK, D10=MOSI, D2=CS) */
 &xiao_spi {
    status = "okay";
@@ -25,15 +34,15 @@
            mipi-max-frequency = <10000000>;
            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
            reg = <0>;
-           width = <135>;
-           height = <240>;
-           x-offset = <52>;
-           y-offset = <40>;
+           width = <240>;
+           height = <135>;
+           x-offset = <40>;
+           y-offset = <53>;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
            vdvs = <0x20>;
-           mdac = <0x00>;
+           mdac = <0x60>;
            gamma = <0x01>;
            colmod = <0x05>;
            lcm = <0x2c>;
@@ -51,4 +60,8 @@
 /* 環境光センサーは未搭載のため無効化 */
 &i2c1 {
    status = "disabled";
+};
+
+&uicr {
+   nfct-pins-as-gpios;
 };
