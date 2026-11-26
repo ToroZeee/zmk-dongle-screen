@@ -2,33 +2,6 @@
    chosen {
       zephyr,display = &st7789;
    };
-
-   pwmleds {
-      compatible = "pwm-leds";
-      disp_bl: pwm_led_1 {
-          pwms = <&pwm1 0 PWM_MSEC(1) PWM_POLARITY_NORMAL>;
-      };
-   };
-
-   aliases {
-      backlight = &disp_bl;
-   };
-};
-
-&pinctrl {
-   /* バックライト制御ピン: D18 (P0.18) */
-   pwm1_default: pwm1_default {
-      group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 18)>;
-      };
-   };
-
-   pwm1_sleep: pwm1_sleep {
-      group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 18)>;
-         low-power-enable;
-      };
-   };
 };
 
 /* ディスプレイ用 SPI バス (D8=SCK, D10=MOSI, D2=CS) */
@@ -52,15 +25,15 @@
            mipi-max-frequency = <10000000>;
            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
            reg = <0>;
-           width = <240>;
-           height = <135>;
-           x-offset = <40>;
-           y-offset = <53>;
+           width = <135>;
+           height = <240>;
+           x-offset = <52>;
+           y-offset = <40>;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
            vdvs = <0x20>;
-           mdac = <0x60>;
+           mdac = <0x00>;
            gamma = <0x01>;
            colmod = <0x05>;
            lcm = <0x2c>;
@@ -78,11 +51,4 @@
 /* 環境光センサーは未搭載のため無効化 */
 &i2c1 {
    status = "disabled";
-};
-
-&pwm1 {
-  status = "okay";
-  pinctrl-0 = <&pwm1_default>;
-  pinctrl-1 = <&pwm1_sleep>;
-  pinctrl-names = "default", "sleep";
 };
