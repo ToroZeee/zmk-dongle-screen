@@ -1,6 +1,6 @@
 / {
    chosen {
-      zephyr,display = &st7789v;
+      zephyr,display = &st7789;
    };
 
    /* YADSの brightness.c が参照する disp_bl ノードを復活 */
@@ -17,48 +17,26 @@
 };
 
 &pinctrl {
-   /* バックライト制御ピン: D18 = P0.10 */
    pwm1_default: pwm1_default {
       group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 10)>;
+         psels = <NRF_PSEL(PWM_OUT0, 1, 5)>;
       };
    };
 
    pwm1_sleep: pwm1_sleep {
       group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 10)>;
+         psels = <NRF_PSEL(PWM_OUT0, 1, 5)>;
          low-power-enable;
       };
    };
 };
 
-/* ディスプレイ用 SPI バス (D8=SCK, D10=MOSI, D2=CS) */
-&xiao_spi {
-   status = "okay";
-   cs-gpios = <&gpio0 28 GPIO_ACTIVE_LOW>;
-
-   st7789v: st7789v@0 {
-      compatible = "zephyr,st7789v";
-      spi-max-frequency = <10000000>;
-
-      cmd-data-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
-      reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
-
-      reg = <0>;
-      width = <240>;
-      height = <135>;
-      x-offset = <40>;
-      y-offset = <53>;
-  };
-};
-
-/*
 / {
    mipi_dbi {
        compatible = "zephyr,mipi-dbi-spi";
        spi-dev = <&xiao_spi>;
-       dc-gpios = <&xiao_d 3 GPIO_ACTIVE_HIGH>;
-       reset-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
+       dc-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+       reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
        write-only;
        #address-cells = <1>;
        #size-cells = <0>;
@@ -68,15 +46,15 @@
            mipi-max-frequency = <10000000>;
            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
            reg = <0>;
-           width = <135>;
-           height = <240>;
+           width = <240>;
+           height = <135>;
            x-offset = <52>;
            y-offset = <40>;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
            vdvs = <0x20>;
-           mdac = <0x00>;
+           mdac = <0x60>;
            gamma = <0x01>;
            colmod = <0x05>;
            lcm = <0x2c>;
@@ -90,7 +68,6 @@
        };
    };
 };
-*/
 
 /* 環境光センサーは未搭載のため無効化 */
 &i2c1 {
