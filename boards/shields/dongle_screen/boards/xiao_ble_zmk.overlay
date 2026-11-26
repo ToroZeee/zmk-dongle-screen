@@ -19,16 +19,21 @@
 &pinctrl {
    pwm1_default: pwm1_default {
       group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 19)>;
+         psels = <NRF_PSEL(PWM_OUT0, 1, 5)>;
       };
    };
 
    pwm1_sleep: pwm1_sleep {
       group1 {
-         psels = <NRF_PSEL(PWM_OUT0, 0, 19)>;
+         psels = <NRF_PSEL(PWM_OUT0, 1, 5)>;
          low-power-enable;
       };
    };
+};
+
+&xiao_spi {
+   status = "okay";
+   cs-gpios = <&xiao_d 2 GPIO_ACTIVE_LOW>;
 };
 
 / {
@@ -36,7 +41,7 @@
        compatible = "zephyr,mipi-dbi-spi";
        spi-dev = <&xiao_spi>;
        dc-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
-       reset-gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
+       reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
        write-only;
        #address-cells = <1>;
        #size-cells = <0>;
