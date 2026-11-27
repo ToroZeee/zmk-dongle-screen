@@ -36,6 +36,7 @@
    pwm1_default: pwm1_default {
       group1 {
          psels = <NRF_PSEL(PWM_OUT0, 1, 5)>;
+         nordic,invert;
       };
    };
 
@@ -67,15 +68,15 @@
            mipi-max-frequency = <10000000>;
            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
            reg = <0>;
-           width = <240>;
-           height = <135>;
-           x-offset = <40>;
-           y-offset = <53>;
+           width = <135>;
+           height = <240>;
+           x-offset = <52>;
+           y-offset = <40>;
            vcom = <0x19>;
            gctrl = <0x35>;
            vrhs = <0x12>;
            vdvs = <0x20>;
-           mdac = <0x60>;
+           mdac = <0x00>;
            gamma = <0x01>;
            colmod = <0x05>;
            lcm = <0x2c>;
